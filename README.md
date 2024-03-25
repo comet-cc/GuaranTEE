@@ -7,7 +7,7 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and private ML wit
 ### Paper
 
 **GuaranTEE: Towards Attestable and private ML with CCA**
-Sandra Siby, Sina Abdollahi, Marios Kogias, Hamed Haddadi
+Sandra Siby, Sina Abdollahi, Mohammad Maheri, Marios Kogias, Hamed Haddadi
 _EuroMLSys, 2024_
 
 **Abstract** -- Machine-learning (ML) models are increasingly being deployed on edge devices to provide a variety of services. However, their deployment is accompanied by challenges in model privacy and auditability. Model providers want to ensure that (i) their proprietary models are not exposed to third parties; and (ii) be able to get attestations that their genuine models are operating on edge devices in accordance with the service agreement with the user. Existing measures to address these challenges have been hindered by issues such as high overheads and limited capability (processing/secure
@@ -22,7 +22,7 @@ If you use the code/data in your research, please cite our work as follows:
 ```
 @inproceedings{Siby24GuaranTEE,
   title     = {GuaranTEE: Towards Attestable and private ML with CCA},
-  author    = {Sandra Siby, Sina Abdollahi, Marios Kogias, Hamed Haddadi},
+  author    = {Sandra Siby, Sina Abdollahi, Mohammad Maheri, Marios Kogias, Hamed Haddadi},
   booktitle = {The 4th Workshop on Machine Learning and Systems (EuroMLSys)},
   year      = {2024}
 }
