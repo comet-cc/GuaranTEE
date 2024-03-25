@@ -1,0 +1,2 @@
+## General Guide ##
+This simulation is based on arm-reference solution (https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master/docs/aemfvp-a-rme)
