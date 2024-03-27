@@ -6,7 +6,7 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and private ML wit
 
 ### Paper
 
-**GuaranTEE: Towards Attestable and private ML with CCA**
+**GuaranTEE: Towards Attestable and Private ML with CCA**
 Sandra Siby, Sina Abdollahi, Mohammad Maheri, Marios Kogias, Hamed Haddadi
 _EuroMLSys, 2024_
 
