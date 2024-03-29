@@ -32,4 +32,7 @@ If you use the code/data in your research, please cite our work as follows:
 
 In case of questions, please get in touch with [Sina Abdollahi](https://www.imperial.ac.uk/people/s.abdollahi22) and [Sandra Siby](https://sandrasiby.github.io/). 
 
-# Guide to run inference in realm
+## Guide to run inference within realm
+In The following, we provide a step-by-step guide to create a realm VM that provides inference to Normal world. What we actually need is a platform simulating an Armv9-A architecture and also necessary firmware and software which are compliant with Arm CCA extention. Our platform is Armv-A Base RevC AEM FVP 
+[https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms] which is free-of-charge and provided by Arm. This platform only works only on linux hosts. To obtain firmware and software stack we use Arm reference solutions [https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads]
+. 
