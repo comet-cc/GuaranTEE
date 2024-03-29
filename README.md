@@ -31,3 +31,5 @@ If you use the code/data in your research, please cite our work as follows:
 ### Contact
 
 In case of questions, please get in touch with [Sina Abdollahi](https://www.imperial.ac.uk/people/s.abdollahi22) and [Sandra Siby](https://sandrasiby.github.io/). 
+
+# Guide to run inference in realm
