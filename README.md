@@ -118,6 +118,7 @@ chmod +x ./        && ./
 This code will execute binary. This binary look at signalling.rxt in the shared folder with hypervisor for input data address.
 Ctrl + a + d to detach from realm 
 ```
-chmod +x /root/signalling.sh && /root/signalling.sh
+chmod +x /root/signalling.sh
+/root/signalling.sh
 ```
 
