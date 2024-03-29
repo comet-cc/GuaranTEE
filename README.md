@@ -116,7 +116,7 @@ Use “root” as both username and password to get into realm’s user space
 ```
 chmod +x ./        && ./
 ```
-This code will execute binary. This binary look at signalling.rxt in the shared folder with hypervisor for input data address.
+This code will execute binary. This binary look at signalling.txt in the shared folder with hypervisor for input data address.
 Ctrl + a + d to detach from realm 
 ```
 chmod +x /root/signalling.sh
