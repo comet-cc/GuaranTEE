@@ -54,7 +54,8 @@ This will execute the container and the mount point inside it is the same as the
 Run following commands inside the container:
 ```
 cd </absolute/path/to/rme-stack>
-repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22 repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
+repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22
+repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
 ```
 At this point the basic stack is ready to build. If you just want to build and boot the basic stack without running our simulation skip steps 3.
 ### 3 Modify the stack build scripts
