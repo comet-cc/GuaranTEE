@@ -96,10 +96,11 @@ It takes a bit of time, please be patient.
 export FVP_DIR=/path_to_FVP_directory
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
 ```
-Hint: You should be able to see four xterms windows. You can close these windows and use other shells instead by executioing:
+Hint: You should be able to see four xterms windows. You can close these windows and use other shells instead by executing:
 ```
 telnet localhost 5000 (up to 5003)
 ```
+
 ### 6 Create a realm instant
 Use “root” as both username and password to get into hypervisor’s user space
 Create a realm instance:
