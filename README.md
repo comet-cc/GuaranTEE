@@ -41,7 +41,6 @@ To set up the environment and running the simulator you need to follow these ste
 To download the appropriate FVP (depending on your host) follow the steps in [Arm Reference Solutions-docs/docs/aemfvp-a-rme/install-fvp.rst](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/install-fvp.rst).
 
 #### b) Docker Container
-You need at least 30GB free storage disk. Firstly run the the following command:
 ```
 cd && mkdir cca-simulation && cd cca-simulation
 ```
@@ -55,9 +54,69 @@ This will execute the container and the mount point inside it is the same as the
 Run following commands inside the container:
 ```
 cd </absolute/path/to/rme-stack>
-repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22 && repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
+repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22 repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
+```
+At this point the basic stack is ready to build. If you just want to build and boot the basic stack without running our simulation skip steps 3.
+### 3 Modify the stack build scripts
+Exit container:
+```
 exit
 ```
-At this point the basic stack is ready to build. If you just want to build and boot the basic stack without running our simulation skip steps 4 
-
+asdasdasd
+```
+git clone https://github.com/comet-cc/GuaranTEE.git
+chmod +x ./GauranTEE/modify.sh
+./GauranTEE/modify.sh
+```
+### 4 Build the stack
+a) If you skipped step 3 execute this, if did not, go to part b:
+```
+SCRIPT="${GuaranTEE_DIR}/../build-scripts/build-linux.sh"
+PATTERN="git apply --ignore-space-change --whitespace=warn --inaccurate-eof -v \$LINUX_CMD_LINE_EXTEND_PATCH"
+sed -i "/${PATTERN}/d" "${SCRIPT}"
+```
+This is a necessary modification to be able to create linux image several times (look at https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)
+b) Open the container (if it is not) by:
+```
+./container.sh -v </absolute/path/to/rme-stack> run
+cd </absolute/path/to/rme-stack>
+```
+c) Build the stack by:
+```
+./build-scripts/aemfvp-a-rme/build-test-buildroot.sh -p aemfvp-a-rme all
+```
+d) Exit containter
+```
+exit
+```
+It takes a bit of time, please be patient.
+### 5 Boot the stack:
+```
+export FVP_DIR=/path_to_FVP_directory
+./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
+```
+Hint: You should be able to see four xterms windows. You can close these windows and use other shells instead by executioing:
+```
+telnet localhost 5000 (up to 5003)
+```
+### 6 Create a realm instant
+Use “root” as both username and password to get into hypervisor’s user space
+Create a realm instance:
+```
+chmod +x /root/realm_create.sh && /root/realm_create.sh
+```
+If you skipped our modifications (step 3), you can create a realm instance by:
+```
+lkvm run --realm -c 2 -m 256 -k /realm/Image -d /realm/realm-fs.ext4 -p earlycon
+```
+### 7 Inference 
+Use “root” as both username and password to get into realm’s user space
+```
+chmod +x ./        && ./
+```
+This code will execute binary. This binary look at signalling.rxt in the shared folder with hypervisor for input data address.
+Ctrl + a + d to detach from realm 
+```
+chmod +x /root/signalling.sh && /root/signalling.sh
+```
 
