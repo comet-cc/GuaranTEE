@@ -34,16 +34,26 @@ In case of questions, please get in touch with [Sina Abdollahi](https://www.impe
 
 ## Guide to run inference within realm
 In The following, we provide a step-by-step guide to create a realm VM that provides inference to Normal world. What we actually need is a platform simulating an Armv9-A architecture and also necessary firmware and software which are compliant with Arm CCA extention. Our platform is Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)) which is free-of-charge and provided by Arm. This platform only works only on linux hosts. To obtain firmware and software stack we use [Arm Reference Solutions](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)) which is free-of-charge and provided by Arm. This platform only works only on linux hosts. To obtain firmware and software stack we use [Arm Reference Solutions](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads).
 ### 1 Set up the environment
 To set up the environment and running the simulator you need to follow these steps:
-#### Download FVP: To download the appropriate FVP (depending on your host) and more guide on that use:
-https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/install-fvp.rst
+#### a) Download FVP
+To download the appropriate FVP (depending on your host) follow the steps in [Arm Reference Solutions/Install-FVP](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/install-fvp.rst).
 
-2- Docker Container: Install docker container and download a docker image which has all necessary packages to build the software stack. 
-	
-You need at least 30GB free storage disk
-$ cd && mkdir cca-simulation && cd cca-simulation
-Run the commands described here:
-https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/setup-environ.rst
+#### b) Docker Container
+You need at least 30GB free storage disk. Firstly run the the following command:
+```
+cd && mkdir cca-simulation && cd cca-simulation
+```
+To install docker container and download the appropriate docker image, follow commands here [Arm Reference Solutions/setup-environment](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/setup-environ.rst).
+
+### 2 Download the stack
+Download source code to build all software & firmware. Follow the our instruction (based 	on https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/build-stack.rst):
+mkdir rme-stack && ./container.sh -v </absolute/path/to/rme-stack> run
+This will execute the container and the mount point inside it is the same as the host path provided. Do not forget to replace absolute path to rme-stack folder (It should be something like /home/user_name/cca-simulation/docker/rme-stack).
+cd </absolute/path/to/rme-stack>
+repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22 && repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
+exit
+At this point the basic stack is ready to build. If you just want to build and boot the basic stack without running our simulation skip steps 4 
+
 
