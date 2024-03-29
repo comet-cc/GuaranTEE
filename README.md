@@ -1,6 +1,6 @@
 # GuaranTEE
 
-Artifact release for the paper "GuaranTEE: Towards Attestable and private ML with CCA", at EuroMLSys 2024.
+Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML with CCA", at EuroMLSys 2024.
 
 ### Repo organization
 
