@@ -122,4 +122,7 @@ Ctrl + a + d to detach from realm
 chmod +x /root/signalling.sh
 /root/signalling.sh
 ```
+## Optinal settings
+### Mounting
+post build scripts
 
