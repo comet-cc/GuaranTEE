@@ -107,7 +107,7 @@ Create a realm instance:
 ```
 chmod +x /root/realm_create.sh && /root/realm_create.sh
 ```
-If you skipped our modifications (step 3), you can create a realm instance by:
+If you skipped our modifications (step 3), you can create a realm instant by:
 ```
 lkvm run --realm -c 2 -m 256 -k /realm/Image -d /realm/realm-fs.ext4 -p earlycon
 ```
@@ -125,4 +125,4 @@ chmod +x /root/signalling.sh
 ## Optinal settings
 ### Mounting
 post build scripts
-
+### RMM logs
