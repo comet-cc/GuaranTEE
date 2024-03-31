@@ -102,12 +102,8 @@ telnet localhost 5000 (up to 5003)
 ```
 
 ### 6 Create a realm instant
-Use “root” as both username and password to get into hypervisor’s user space
-Create a realm instance:
-```
-chmod +x /root/realm_create.sh && /root/realm_create.sh
-```
-You can create a realm instant by:
+a) Use “root” as both username and password to get into hypervisor’s user space
+b) Create a realm instant by:
 ```
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 --9p /root/mnt/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
@@ -115,14 +111,14 @@ screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 
 ### 7 Inference 
 a) Use “root” as both username and password to get into realm’s user space
+b) Execute the following command:
 ```
 chmod +x /root/start.sh && /root/start.sh
 ```
-b) This code will execute binary file label_image. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary look at the input and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
-c) To start to write new addresses into signalling.txt, you need to firstly detach form the realm by Ctrl + a + d. Execute the follwing commands in the normal world user:
+This command execute a binary file named label_image. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary look at the input and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+c) To start to write new addresses into signalling.txt, you need to firstly detach form the realm by Ctrl + a + d, then execute the follwing command in the normal world user:
 ```
-chmod +x /root/signalling.sh
-/root/signalling.sh
+chmod +x /root/signalling.sh && /root/signalling.sh
 ```
 ## Optinal settings
 ### Mounting
