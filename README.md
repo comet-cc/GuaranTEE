@@ -119,7 +119,7 @@ chmod +x /root/start.sh && /root/start.sh
 This command execute a binary file named label_image. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary look at the input and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
 c) To start to write new addresses into signalling.txt, you need to firstly detach form the realm by Ctrl + a + d, then execute the follwing command in the normal world user:
 ```
-chmod +x /root/signalling.sh && /root/signalling.sh
+chmod +x /root/NW_signalling.sh && /root/NW_signalling.sh
 ```
 ## Optinal settings
 ### Mounting
