@@ -106,7 +106,7 @@ a) Use “root” as both username and password to get into hypervisor’s user 
 b) Create a realm instant by:
 ```
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
---9p /root/mnt/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
+--9p /root/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
 ```
 
 ### 7 Inference 
