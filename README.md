@@ -107,17 +107,19 @@ Create a realm instance:
 ```
 chmod +x /root/realm_create.sh && /root/realm_create.sh
 ```
-If you skipped our modifications (step 3), you can create a realm instant by:
+You can create a realm instant by:
 ```
-lkvm run --realm -c 2 -m 256 -k /realm/Image -d /realm/realm-fs.ext4 -p earlycon
+screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
+--9p /root/mnt/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
 ```
+
 ### 7 Inference 
-Use “root” as both username and password to get into realm’s user space
+a) Use “root” as both username and password to get into realm’s user space
 ```
-chmod +x ./        && ./
+chmod +x /root/start.sh && /root/start.sh
 ```
-This code will execute binary. This binary look at signalling.txt in the shared folder with hypervisor for input data address.
-Ctrl + a + d to detach from realm 
+b) This code will execute binary file label_image. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary look at the input and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+c) To start to write new addresses into signalling.txt, you need to firstly detach form the realm by Ctrl + a + d. Execute the follwing commands in the normal world user:
 ```
 chmod +x /root/signalling.sh
 /root/signalling.sh
