@@ -111,6 +111,7 @@ screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 
 ### 7 Inference 
 a) Use “root” as both username and password to get into realm’s user space
+
 b) Execute the following command:
 ```
 chmod +x /root/start.sh && /root/start.sh
