@@ -50,8 +50,10 @@ do_build ()
 	export PATH=$BUILDROOT_GCC_PATH:$PATH
 
 	# Build realm-fs
-	cp ${BUILDROOT_CONFIG_FILE} .config
-	./utils/config --set-val BR2_INSTALL_LIBSTDCPP "y"
+
+	# Replace out buildroot config file with the original one
+	cp $DIR/../GuaranTEE/realm-buildroot-config .config
+	# Overlay our realm folder into the realm file system
 	./utils/config --set-val BR2_ROOTFS_OVERLAY "\"${ROOTFS_OVERLAY} ${DIR}/../GuaranTEE/realm/\""
 	make oldconfig
 	make BR2_JLEVEL=$PARALLELISM
@@ -79,6 +81,7 @@ do_build ()
 	# Set the overlays needed on the host-fs
 	./utils/config --set-val BR2_ROOTFS_OVERLAY "\"${ROOTFS_OVERLAY} $PWD/tmp_realm_overlay $PWD/tmp_kvm_overlay ${DIR}/../GuaranTEE/normal_world/\""
 	./utils/config --set-val BR2_PACKAGE_SCREEN "y"
+	./utils/config --set-val BR2_TARGET_ROOTFS_EXT2_SIZE "\"1024M\""
 	make oldconfig
 	make -j$PARALLELISM kvmtool-rebuild
 	make BR2_JLEVEL=$PARALLELISM

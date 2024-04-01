@@ -1,13 +1,13 @@
 #!/bin/bash
 
-path="/root/mnt"
-sourceFolderPath="$path/inputs/inputsbmp" # Set the source folder path here
-targetFolderPath="$path/shared_with_realm/inputs" # Set the target folder path here
+path="/root"
+sourceFolderPath="$path/input_data" # Set the source folder path here
+targetFolderPath="$path/shared_with_realm" # Set the target folder path here
 stateFilePath="$path/shared_with_realm/signalling.txt" # Use a .txt file for state and file name
 
 # Initialize the state file with 'processed' state
-rm -r "$targetFolderPath"
-mkdir "$targetFolderPath"
+rm -r "$targetFolderPath/*"
+# mkdir "$targetFolderPath"
 echo "systemState: processed" > "$stateFilePath"
 echo "fileName: " >> "$stateFilePath"
 
