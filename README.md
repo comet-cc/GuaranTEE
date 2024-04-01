@@ -33,7 +33,7 @@ If you use the code/data in your research, please cite our work as follows:
 In case of questions, please get in touch with [Sina Abdollahi](https://www.imperial.ac.uk/people/s.abdollahi22) and [Sandra Siby](https://sandrasiby.github.io/). 
 
 ## Guide to run inference within realm
-In the following, we provide a step-by-step guide to create a realm VM that provides inference to Normal world. What we actually need is a platform simulating an Armv9-A architecture and also necessary firmware and software which are compliant with Arm CCA extention. Our platform is Armv-A Base RevC AEM FVP 
+In the following, we provide a step-by-step guide to create a realm VM that provides inference service to normal world applications.  What we actually need is a platform simulating an Armv9-A architecture and also necessary firmware and software which are compliant with Arm CCA extention. Our platform is Armv-A Base RevC AEM FVP 
 ([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)) which is free-of-charge and provided by Arm. This platform only works only on linux hosts. To obtain firmware and software stack we use [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads).
 ### 1 Set up the environment
 To set up the environment and running the simulator you need to follow these steps:
@@ -41,10 +41,11 @@ To set up the environment and running the simulator you need to follow these ste
 To download the appropriate FVP (depending on your host) follow the steps in [Arm Reference Solutions-docs/docs/aemfvp-a-rme/install-fvp.rst](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/install-fvp.rst).
 
 #### b) Docker Container
+First, create a folder for the simulation:
 ```
 cd && mkdir cca-simulation && cd cca-simulation
 ```
-To install docker container and download the appropriate docker image, follow commands here [Arm Reference Solutions-docs/docs/aemfvp-a-rme/setup-environ.rst](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/setup-environ.rst).
+To install docker container and download the appropriate docker image, follow the commands here [Arm Reference Solutions-docs/docs/aemfvp-a-rme/setup-environ.rst](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/setup-environ.rst).
 
 ### 2 Download the stack
 Execute the container and mount the path to rme-stack folder using the following command. Do not forget to add absolute path to rme-stack folder (It should be something like /home/user_name/cca-simulation/docker/rme-stack).
@@ -54,6 +55,8 @@ mkdir rme-stack && ./container.sh -v </absolute/path/to/rme-stack> run
 Run the following commands inside the container:
 ```
 cd </absolute/path/to/rme-stack>
+```
+```
 repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22
 repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
 ```
@@ -64,15 +67,15 @@ exit
 ```
 asdasdasd
 ```
+cd rme-stack/
 git clone https://github.com/comet-cc/GuaranTEE.git
-chmod +x ./GauranTEE/modify.sh
-./GauranTEE/modify.sh
+./GuaranTEE/modify.sh
 ```
 This is a necessary modification to be able to create linux image several times (look at https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)
 ### 4 Build the stack
 b) Open the container (if it is not) by:
 ```
-./container.sh -v </absolute/path/to/rme-stack> run
+../container.sh -v </absolute/path/to/rme-stack> run
 cd </absolute/path/to/rme-stack>
 ```
 c) Build the stack by:
@@ -89,11 +92,10 @@ It takes a bit of time, please be patient.
 export FVP_DIR=/path_to_FVP_directory
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
 ```
-Hint: You should be able to see four xterms windows. You can close these windows and use other shells instead by executing:
+Hint: You should be able to see four xterms terminals. You can close these windows and use other terminals instead by executing:
 ```
 telnet localhost 5000 (up to 5003)
 ```
-
 ### 6 Create a realm instant
 a) Use “root” as both username and password to get into hypervisor’s user space
 b) Create a realm instant by:
@@ -105,22 +107,23 @@ Alternatively, you can create a realm instant with a customized setting like thi
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 --9p /root/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
 ```
-To see the options:
+To see lkvm options to create a realm instant:
 ```
 lkvm run --help
 ```
 ### 7 Inference 
-a) Use “root” as both username and password to get into realm’s user space
-
-b) Execute the following command:
+#### a) Prepare realm for infernce
+Use “root” as both username and password to get into realm’s user space. Then, execute the following command:
 ```
 chmod +x /root/start.sh && /root/start.sh
 ```
-This command execute a binary file named label_image. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary look at the input and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
-c) To start to write new addresses into signalling.txt, you need to firstly detach form the realm by Ctrl + a + d, then execute the follwing command in the normal world user:
+This command execute a binary file named realm_inference. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary looks at the input address and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+#### b) Send inputs to the realm
+To start to write new addresses into signalling.txt, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
 ```
 chmod +x /root/NW_signalling.sh && /root/NW_signalling.sh
 ```
+
 ## Optinal settings
 ### Mounting
 post build scripts
