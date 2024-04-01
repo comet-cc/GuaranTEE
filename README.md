@@ -82,17 +82,19 @@ c) Build the stack by:
 ```
 ./build-scripts/aemfvp-a-rme/build-test-buildroot.sh -p aemfvp-a-rme all
 ```
+It takes a bit of time, please be patient.
+
 d) Exit containter
 ```
 exit
 ```
-It takes a bit of time, please be patient.
 ### 5 Boot the stack:
+First, you need to export the path to the downloaded FVP. Then, you should execute boot.sh script. 
 ```
 export FVP_DIR=/path_to_FVP_directory
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
 ```
-Hint: You should be able to see four xterms terminals. You can close these windows and use other terminals instead by executing:
+Hint: You should be able to see four xterms terminals. You can close these windows and use other terminals to receive data from telnet by:
 ```
 telnet localhost 5000 (up to 5003)
 ```
@@ -100,7 +102,7 @@ telnet localhost 5000 (up to 5003)
 a) Use “root” as both username and password to get into hypervisor’s user space
 b) Create a realm instant by:
 ```
-/root/create_realm.sh
+create_realm.sh
 ```
 Alternatively, you can create a realm instant with a customized setting like this:
 ```
@@ -115,13 +117,13 @@ lkvm run --help
 #### a) Prepare realm for infernce
 Use “root” as both username and password to get into realm’s user space. Then, execute the following command:
 ```
-chmod +x /root/start.sh && /root/start.sh
+start.sh
 ```
 This command execute a binary file named realm_inference. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary looks at the input address and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
 #### b) Send inputs to the realm
 To start to write new addresses into signalling.txt, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
 ```
-chmod +x /root/NW_signalling.sh && /root/NW_signalling.sh
+NW_signalling.sh
 ```
 
 ## Optinal settings
