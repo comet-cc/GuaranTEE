@@ -117,7 +117,7 @@ lkvm run --help
 #### a) Prepare realm for infernce
 Use “root” as both username and password to get into realm’s user space. Then, execute the following command:
 ```
-./start.sh
+./start_inference_service.sh
 ```
 This command execute a binary file named realm_inference. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary looks at the input address and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
 #### b) Send inputs to the realm

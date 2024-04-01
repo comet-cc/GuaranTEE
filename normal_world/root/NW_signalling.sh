@@ -6,8 +6,7 @@ targetFolderPath="$path/shared_with_realm" # Set the target folder path here
 stateFilePath="$path/shared_with_realm/signalling.txt" # Use a .txt file for state and file name
 
 # Initialize the state file with 'processed' state
-rm -r "$targetFolderPath/*"
-# mkdir "$targetFolderPath"
+rm -r "$targetFolderPath"/*
 echo "systemState: processed" > "$stateFilePath"
 echo "fileName: " >> "$stateFilePath"
 
