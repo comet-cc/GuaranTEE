@@ -47,17 +47,16 @@ cd && mkdir cca-simulation && cd cca-simulation
 To install docker container and download the appropriate docker image, follow commands here [Arm Reference Solutions-docs/docs/aemfvp-a-rme/setup-environ.rst](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/setup-environ.rst).
 
 ### 2 Download the stack
+Execute the container and mount the path to rme-stack folder using the following command. Do not forget to add absolute path to rme-stack folder (It should be something like /home/user_name/cca-simulation/docker/rme-stack).
 ```
 mkdir rme-stack && ./container.sh -v </absolute/path/to/rme-stack> run
 ```
-This will execute the container and the mount point inside it is the same as the host path provided. Do not forget to add absolute path to rme-stack folder (It should be something like /home/user_name/cca-simulation/docker/rme-stack).
-Run following commands inside the container:
+Run the following commands inside the container:
 ```
 cd </absolute/path/to/rme-stack>
 repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22
 repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
 ```
-At this point the basic stack is ready to build. If you just want to build and boot the basic stack without running our simulation skip steps 3.
 ### 3 Modify the stack build scripts
 Exit container:
 ```
@@ -69,14 +68,8 @@ git clone https://github.com/comet-cc/GuaranTEE.git
 chmod +x ./GauranTEE/modify.sh
 ./GauranTEE/modify.sh
 ```
-### 4 Build the stack
-a) If you skipped step 3 execute this, if did not, go to part b:
-```
-SCRIPT="${GuaranTEE_DIR}/../build-scripts/build-linux.sh"
-PATTERN="git apply --ignore-space-change --whitespace=warn --inaccurate-eof -v \$LINUX_CMD_LINE_EXTEND_PATCH"
-sed -i "/${PATTERN}/d" "${SCRIPT}"
-```
 This is a necessary modification to be able to create linux image several times (look at https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)
+### 4 Build the stack
 b) Open the container (if it is not) by:
 ```
 ./container.sh -v </absolute/path/to/rme-stack> run
