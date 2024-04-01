@@ -109,7 +109,7 @@ Alternatively, you can create a realm instant with a customized setting like thi
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 --9p /root/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
 ```
-To see lkvm options to create a realm instant:
+To see all lkvm options:
 ```
 lkvm run --help
 ```
