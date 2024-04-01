@@ -33,7 +33,7 @@ If you use the code/data in your research, please cite our work as follows:
 In case of questions, please get in touch with [Sina Abdollahi](https://www.imperial.ac.uk/people/s.abdollahi22) and [Sandra Siby](https://sandrasiby.github.io/). 
 
 ## Guide to run inference within realm
-In The following, we provide a step-by-step guide to create a realm VM that provides inference to Normal world. What we actually need is a platform simulating an Armv9-A architecture and also necessary firmware and software which are compliant with Arm CCA extention. Our platform is Armv-A Base RevC AEM FVP 
+In the following, we provide a step-by-step guide to create a realm VM that provides inference to Normal world. What we actually need is a platform simulating an Armv9-A architecture and also necessary firmware and software which are compliant with Arm CCA extention. Our platform is Armv-A Base RevC AEM FVP 
 ([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)) which is free-of-charge and provided by Arm. This platform only works only on linux hosts. To obtain firmware and software stack we use [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads).
 ### 1 Set up the environment
 To set up the environment and running the simulator you need to follow these steps:
@@ -105,10 +105,17 @@ telnet localhost 5000 (up to 5003)
 a) Use “root” as both username and password to get into hypervisor’s user space
 b) Create a realm instant by:
 ```
+/root/create_realm.sh
+```
+Alternatively, you can create a realm instant with a customized setting like this:
+```
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 --9p /root/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
 ```
-
+To see the options:
+```
+lkvm run --help
+```
 ### 7 Inference 
 a) Use “root” as both username and password to get into realm’s user space
 
