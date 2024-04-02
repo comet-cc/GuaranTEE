@@ -119,7 +119,7 @@ Use “root” as both username and password to get into realm’s user space. T
 ```
 ./start_inference_service.sh
 ```
-This command execute a binary file named realm_inference. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary looks at the input address and feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+This command execute a binary file named realm_inference. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
 #### b) Send inputs to the realm
 To start to write new addresses into signalling.txt, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
 ```
