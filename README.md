@@ -95,15 +95,27 @@ To see all lkvm options:
 lkvm run --help
 ```
 ### 7 Inference 
+
+We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the .tflite model and a set of input images (found in the `normal_world` and `realm` directories). You can change these based on the ML application you want to run. 
+
+In our setup, there is a shared folder between the realm and the normal world. The shared folder contains a file `signalling.txt` which is used by both the realm and the normal world app to coordinate communication. 
+
+The normal world has a folder of images (inputs for the model). The nomral world copies an image to the shared folder and updates `signalling.txt` (it adds the path to the image and a state showing that there is an image to be processed).
+
+The realm reads the content of `signalling.txt`, performs inference, and writes the output to `output.txt` in the shared folder. 
+
+The steps to perform these operations are shown below.
+
 #### a) Prepare realm for inference
 Use “root” as both username and password to get into the realm’s user space. Then, execute the following command:
 ```
 ./start_inference_service.sh
 ```
-This command executes a binary file named `realm_inference`. This binary looks at `signalling.txt` in the shared folder with the hypervisor for the input (image) path. When a new image path is written, the binary feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+
+This command executes a binary file named `realm_inference`. This binary looks at `signalling.txt` in the shared folder for the input (image) path. When a new image path is written, the binary feeds it into the model. The model itself is in TensorFlow Lite (.tflite) which is stored in the realm file system. 
 
 #### b) Send inputs to the realm
-To start to write new addresses into signalling.txt, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
+To start to write new image paths into `signalling.txt`, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
 ```
 ./NW_signalling.sh
 ```
