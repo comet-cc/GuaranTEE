@@ -5,7 +5,7 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 ## Guide to run inference within a realm
 
 In the following, we provide a step-by-step guide to create a realm VM that performs ML inference. We use Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates the Armv9-A architecture and necessary firmware and software which are compliant with Arm CCA. The platform only works on Linux hosts. To obtain the firmware and software stack, we use [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads).
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates the Armv9-A architecture. The platform only works on Linux hosts. We also get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA.
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
@@ -53,7 +53,7 @@ git clone https://github.com/comet-cc/GuaranTEE.git
 ```
 
 ### 4 Build the stack
-a) Run the container (if it is not already running) with:
+a) Run the container with:
 ```
 ../container.sh -v </absolute/path/to/rme-stack> run
 cd </absolute/path/to/rme-stack>
@@ -96,7 +96,7 @@ lkvm run --help
 ```
 ### 7 Inference 
 
-We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the .tflite model and a set of input images (found in the `normal_world` and `realm` directories). You can change these based on the ML application you want to run. 
+We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the .tflite model and a set of input images (found in the `realm` and `normal_world` directories respectively). You can change these based on the ML application you want to run. 
 
 In our setup, there is a shared folder between the realm and the normal world. The shared folder contains a file `signalling.txt` which is used by both the realm and the normal world app to coordinate communication. 
 
@@ -107,7 +107,7 @@ The realm reads the content of `signalling.txt`, performs inference, and writes 
 The steps to perform these operations are shown below.
 
 #### a) Prepare realm for inference
-Use “root” as both username and password to get into the realm’s user space. Then, execute the following command:
+After creating a realm instance from step 6, use “root” as both username and password to get into the realm’s user space. Then, execute the following command:
 ```
 ./start_inference_service.sh
 ```
