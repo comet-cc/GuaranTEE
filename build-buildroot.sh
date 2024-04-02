@@ -62,6 +62,7 @@ do_build ()
 	# Prepare overlay for realm (filesystem+kernel)
 	mkdir -p $PWD/tmp_realm_overlay/realm
 	cp $BUILDROOT_PATH/output/images/rootfs.ext4 ./tmp_realm_overlay/realm/realm-fs.ext4
+	cp $BUILDROOT_PATH/output/images/rootfs.cpio ./tmp_realm_overlay/realm/realm-fs.cpio
 	e2fsck -fp ./tmp_realm_overlay/realm/realm-fs.ext4
 	resize2fs ./tmp_realm_overlay/realm/realm-fs.ext4 300M
 	cp $LINUX_PATH/arch/arm64/boot/Image ./tmp_realm_overlay/realm/.

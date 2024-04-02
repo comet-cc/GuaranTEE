@@ -53,12 +53,12 @@ git clone https://github.com/comet-cc/GuaranTEE.git
 ```
 
 ### 4 Build the stack
-a) Run the container with:
+a) Run the container:
 ```
 ../container.sh -v </absolute/path/to/rme-stack> run
 cd </absolute/path/to/rme-stack>
 ```
-b) Build the stack with:
+b) Build the stack:
 ```
 ./build-scripts/aemfvp-a-rme/build-test-buildroot.sh -p aemfvp-a-rme all
 ```
@@ -96,7 +96,7 @@ lkvm run --help
 ```
 ### 7 Inference 
 
-We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the .tflite model and a set of input images (found in the `realm` and `normal_world` directories respectively). You can change these based on the ML application you want to run. 
+We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the .tflite model and a set of input images (found in the `realm` and `normal_world` directories, respectively). You can change these based on the ML application you want to run. 
 
 In our setup, there is a shared folder between the realm and the normal world. The shared folder contains a file `signalling.txt` which is used by both the realm and the normal world app to coordinate communication. 
 
@@ -112,7 +112,8 @@ After creating a realm instance from step 6, use “root” as both username and
 ./start_inference_service.sh
 ```
 
-This command executes a binary file named `realm_inference`. This binary looks at `signalling.txt` in the shared folder for the input (image) path. When a new image path is written, the binary feeds it into the model. The model itself is in TensorFlow Lite (.tflite) which is stored in the realm file system. 
+This command executes a binary file named `realm_inference`. This binary looks at `signalling.txt` in the shared folder for the input (image) path. When a new image path is written, the binary feeds it into the model. The model itself is in TensorFlow Lite (.tflite) which is stored in the realm file system.
+For Further instrcutions to build `realm_inference` binary look at our [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA) repository.
 
 #### b) Send inputs to the realm
 To start to write new image paths into `signalling.txt`, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
@@ -121,10 +122,25 @@ To start to write new image paths into `signalling.txt`, you need to detach form
 ```
 
 ## Optional settings
-### Mounting
-post build scripts
-### RMM logs
+### Add content to the hypervisor file system
+The content of normal_world/root folder is overlayed into the hypeervisor file system. Therefore, you can add new content to the hypervisor file system by adding the content to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host system and the hypervisor file system which enables 
+runtime transfering of data. To do this, you need to follow these steps:
+a) Go to the main `rme-stack` directory (if you are not already there) and add the shared folder address into the FVP setting:
+```
+PATH_TO_SHARED_FOLDER="Add_the_shared_folder_address_here"
+NEW_LINE="-C bp.virtiop9device.root_path=${PATH_TO_SHARED_FOLDER} \"
+SCRIPT="${GuaranTEE_DIR}/../model-scripts/aemfvp-a-rme/run_model.sh"
+PATTERN="-C gic_distributor.extended-spi-count=1024"
+sed -i "/${PATTERN}/a ${NEW_LINE}" "${SCRIPT}"
+```
+b) Boot the stack (step 6)
 
+c) Get into hypervisor user space and execute the following code:
+```
+mkdir mnt
+mount -t 9p FM /root/mnt
+```
+You should see the content in shared folder in the `/root/mnt` path now.
 ## Paper
 
 **GuaranTEE: Towards Attestable and Private ML with CCA**
