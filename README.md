@@ -24,7 +24,8 @@ cd && mkdir cca-simulation && cd cca-simulation
 Install the docker container and download the appropriate docker image by following the commands here [Arm Reference Solutions-docs/docs/aemfvp-a-rme/setup-environ.rst](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/blob/master/docs/aemfvp-a-rme/setup-environ.rst).
 
 ### 2 Download the stack
-Execute the container and mount the path to rme-stack folder using the following command. Do not forget to add absolute path to rme-stack folder (It should be something like /home/user_name/cca-simulation/docker/rme-stack).
+
+Run the container and mount the path to the `rme-stack` folder using the following command. Do not forget to add absolute path to rme-stack folder (It should be something like `/home/user_name/cca-simulation/docker/rme-stack`).
 ```
 mkdir rme-stack && ./container.sh -v </absolute/path/to/rme-stack> run
 ```
@@ -36,51 +37,55 @@ cd </absolute/path/to/rme-stack>
 repo init -u https://git.gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-manifest.git -m pinned-aemfvp-a-rme.xml -b refs/tags/AEMFVP-A-RME-2023.12.22
 repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
 ```
-### 3 Modify the stack build scripts
-Exit container:
+### 3 Modify the stack building scripts
+
+We provide a script `modify.sh` in this repository. This script applies changes we made to the file system of the realm and the hypervisor. It also fixes an issue that arises when trying to rebuild the stack (see: https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)
+
+Exit the container:
 ```
 exit
 ```
-Clone our repository:
+Clone our repository and run the `modify.sh` script:
 ```
 cd rme-stack/
 git clone https://github.com/comet-cc/GuaranTEE.git
 ./GuaranTEE/modify.sh
 ```
-This is a necessary modification to be able to create linux image several times (look at https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)
+
 ### 4 Build the stack
-b) Open the container (if it is not) by:
+a) Run the container (if it is not already running) with:
 ```
 ../container.sh -v </absolute/path/to/rme-stack> run
 cd </absolute/path/to/rme-stack>
 ```
-c) Build the stack by:
+b) Build the stack with:
 ```
 ./build-scripts/aemfvp-a-rme/build-test-buildroot.sh -p aemfvp-a-rme all
 ```
-It takes a bit of time, please be patient.
+Note that this process takes a bit of time.
 
-d) Exit containter
+c) Exit the containter
 ```
 exit
 ```
 ### 5 Boot the stack:
-First, you need to export the path to the downloaded FVP. Then, you should execute boot.sh script. 
+First, set the environment vairable `FVP_PATH` to the path of the downloaded FVP. Then, execute the `boot.sh` script. 
 ```
 export FVP_DIR=/path_to_FVP_directory
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
 ```
-You should be able to see four xterms terminals. You can close these windows and use other terminals to receive data from telnet by:
+You should see four xterms terminals. You can close these windows and use other terminals to receive data from telnet by:
 ```
 telnet localhost 5000 (up to 5003)
 ```
 ### 6 Create a realm instance
-a) Use “root” as both username and password to get into hypervisor’s user space
-b) Create a realm instant by:
+a) Use “root” as both username and password to get into the hypervisor’s user space.
+
+b) Create a realm instance with:
 ```
 ./create_realm.sh
 ```
-Alternatively, you can create a realm instant with a customized setting like this:
+Alternatively, you can create a realm instance with a customized setting like this:
 ```
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 --9p /root/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
@@ -90,12 +95,13 @@ To see all lkvm options:
 lkvm run --help
 ```
 ### 7 Inference 
-#### a) Prepare realm for infernce
-Use “root” as both username and password to get into realm’s user space. Then, execute the following command:
+#### a) Prepare realm for inference
+Use “root” as both username and password to get into the realm’s user space. Then, execute the following command:
 ```
 ./start_inference_service.sh
 ```
-This command execute a binary file named realm_inference. This binary look at signalling.txt in the shared folder with hypervisor for input (image) address. When new image address is written, the binary feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+This command executes a binary file named `realm_inference`. This binary looks at `signalling.txt` in the shared folder with the hypervisor for the input (image) path. When a new image path is written, the binary feeds it into the model. The model itself is in tensorflow lite format (.tflite) which is stored in the realm file system. 
+
 #### b) Send inputs to the realm
 To start to write new addresses into signalling.txt, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
 ```
@@ -134,5 +140,3 @@ If you use the code/data in your research, please cite our work as follows:
 ## Contact
 
 In case of questions, please get in touch with [Sina Abdollahi](https://www.imperial.ac.uk/people/s.abdollahi22) and [Sandra Siby](https://sandrasiby.github.io/). 
-
-
