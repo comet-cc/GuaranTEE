@@ -69,7 +69,7 @@ c) Exit the containter
 exit
 ```
 ### 5 Boot the stack:
-First, set the environment vairable `FVP_PATH` to the path of the downloaded FVP. Then, execute the `boot.sh` script. 
+First, set the environment vairable `FVP_DIR` to the path of the downloaded FVP. Then, execute the `boot.sh` script. 
 ```
 export FVP_DIR=/path_to_FVP_directory
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
@@ -142,7 +142,7 @@ mount -t 9p FM /root/mnt
 ```
 You should see the content of the shared folder in the `/root/mnt` path now.
 ### Enable Realm Management Interface (RMI) logs
-Realm management monitor ([RMM specification](https://tf-rmm.readthedocs.io/en/latest/)) is a crucial part of Arm CCA providing confidentiality and integrity guarantees to the realm. When you boot the stack, terminal_3 (port 5003 on Telnet terminal) shows RMM logs. If you are working with RMM, you may fill that the logs are not completely compatible with the specification. What you actually need is to enable some of RMM logs which are disabled be default. To do that, open `rmm/runtime/core/handler.c` and change `false` values to `true` inside `smc_handlers[]` structure.
+Realm Management Monitor ([RMM specification](https://tf-rmm.readthedocs.io/en/latest/)) is a crucial part of Arm CCA providing confidentiality and integrity guarantees to the realm. When you boot the stack, terminal_3 (port 5003 on Telnet terminal) shows RMM logs. If you are working with RMM, you may see that the logs are not completely compatible with the specification. What you actually need is to enable some of RMM logs which are disabled be default. To do that, open `rme-stack/rmm/runtime/core/handler.c` and change `false` values to `true` inside `smc_handlers[]` structure for each RMI command.
 ## Paper
 
 **GuaranTEE: Towards Attestable and Private ML with CCA**
