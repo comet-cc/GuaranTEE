@@ -5,7 +5,7 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 ## Guide to run inference within a realm
 
 In the following, we provide a step-by-step guide to create a realm VM that perovides inference for normal world user space. We use Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates Armv9-A architecture. The platform only works on Linux hosts. We get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task.  Details on how to build the binary is provided in another repository [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA). 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates Armv9-A architecture. The platform only works on Linux hosts. We get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task.  Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
@@ -113,7 +113,7 @@ After creating a realm instance from step 6, use “root” as both username and
 ```
 
 This command executes a binary file named `realm_inference`. This binary looks at `signalling.txt` in the shared folder for the input (image) path. When a new image path is written, the binary feeds it into the model. The model itself is in TensorFlow Lite (.tflite) which is stored in the realm file system.
-For Further instrcutions to build `realm_inference` binary look at our [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA) repository.
+For Further instrcutions to build `realm_inference` binary look at our [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA) repository.
 
 #### b) Send inputs to the realm
 To start to write new image paths into `signalling.txt`, you need to detach form the realm by `Ctrl + a + d`, then execute the follwing command:
