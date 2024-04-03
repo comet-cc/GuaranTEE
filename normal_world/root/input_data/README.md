@@ -1,2 +1,2 @@
-This folder contains 40 images from [ImageNet](https://image-net.org/) data set. A 1k subset of data set is available at [huggingfac]. These images
-are convereted to the .bmp format
+## 40 Sample Image from ImageNet data set
+This folder contains 40 images from [ImageNet](https://image-net.org/) data set. Images downloaded from a 1k subset of data set available at [huggingFace](https://huggingface.co/datasets/imagenet-1k). 

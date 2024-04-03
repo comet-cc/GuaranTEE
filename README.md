@@ -4,8 +4,8 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 
 ## Guide to run inference within a realm
 
-In the following, we provide a step-by-step guide to create a realm VM that performs ML inference. We use Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates the Armv9-A architecture. The platform only works on Linux hosts. We also get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA.
+In the following, we provide a step-by-step guide to create a realm VM that perovides inference for normal world user space. We use Armv-A Base RevC AEM FVP 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates the Armv9-A architecture. The platform only works on Linux hosts. We get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task.  Details on how to build this binary is provided in another repository [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA). 
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
@@ -125,7 +125,7 @@ To start to write new image paths into `signalling.txt`, you need to detach form
 ### Add content to the hypervisor file system
 The content of normal_world/root folder is overlayed into the hypeervisor file system. Therefore, you can add new content to the hypervisor file system by adding the content to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host system and the hypervisor file system which enables 
 runtime transfering of data. To do this, you need to follow these steps:
-a) Go to the main `rme-stack` directory (if you are not already there) and add the shared folder address into the FVP setting:
+a) Go to the main `rme-stack` directory (if you are not already there) and add the shared folder address into FVP setting:
 ```
 PATH_TO_SHARED_FOLDER="Add_the_shared_folder_address_here"
 NEW_LINE="-C bp.virtiop9device.root_path=${PATH_TO_SHARED_FOLDER} \"
@@ -140,7 +140,7 @@ c) Get into hypervisor user space and execute the following code:
 mkdir mnt
 mount -t 9p FM /root/mnt
 ```
-You should see the content in shared folder in the `/root/mnt` path now.
+You should see the content of the shared folder in the `/root/mnt` path now.
 ## Paper
 
 **GuaranTEE: Towards Attestable and Private ML with CCA**

@@ -54,6 +54,7 @@ do_build ()
 	# Replace out buildroot config file with the original one
 	cp $DIR/../GuaranTEE/realm-buildroot-config .config
 	# Overlay our realm folder into the realm file system
+	 ./utils/config --set-val BR2_TARGET_ROOTFS_EXT2_SIZE "\"200M\""
 	./utils/config --set-val BR2_ROOTFS_OVERLAY "\"${ROOTFS_OVERLAY} ${DIR}/../GuaranTEE/realm/\""
 	make oldconfig
 	make BR2_JLEVEL=$PARALLELISM
@@ -64,7 +65,7 @@ do_build ()
 	cp $BUILDROOT_PATH/output/images/rootfs.ext4 ./tmp_realm_overlay/realm/realm-fs.ext4
 	cp $BUILDROOT_PATH/output/images/rootfs.cpio ./tmp_realm_overlay/realm/realm-fs.cpio
 	e2fsck -fp ./tmp_realm_overlay/realm/realm-fs.ext4
-	resize2fs ./tmp_realm_overlay/realm/realm-fs.ext4 300M
+#	resize2fs ./tmp_realm_overlay/realm/realm-fs.ext4 300M
 	cp $LINUX_PATH/arch/arm64/boot/Image ./tmp_realm_overlay/realm/.
 	make clean
 	# Copy networking utils.
