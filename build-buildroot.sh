@@ -54,7 +54,7 @@ do_build ()
 	# Replace out buildroot config file with the original one
 	cp $DIR/../GuaranTEE/realm-buildroot-config .config
 	# Overlay our realm folder into the realm file system
-	 ./utils/config --set-val BR2_TARGET_ROOTFS_EXT2_SIZE "\"200M\""
+#	 ./utils/config --set-val BR2_TARGET_ROOTFS_EXT2_SIZE "\"200M\""
 	./utils/config --set-val BR2_ROOTFS_OVERLAY "\"${ROOTFS_OVERLAY} ${DIR}/../GuaranTEE/realm/\""
 	make oldconfig
 	make BR2_JLEVEL=$PARALLELISM

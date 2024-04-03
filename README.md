@@ -5,7 +5,7 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 ## Guide to run inference within a realm
 
 In the following, we provide a step-by-step guide to create a realm VM that perovides inference for normal world user space. We use Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates the Armv9-A architecture. The platform only works on Linux hosts. We get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task.  Details on how to build this binary is provided in another repository [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA). 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates Armv9-A architecture. The platform only works on Linux hosts. We get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task.  Details on how to build the binary is provided in another repository [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA). 
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
@@ -39,7 +39,7 @@ repo sync -c -j $(nproc) --fetch-submodules --force-sync --no-clone-bundle
 ```
 ### 3 Modify the stack building scripts
 
-We provide a script `modify.sh` in this repository. This script applies changes we made to the file system of the realm and the hypervisor. It also fixes an issue that arises when trying to rebuild the stack (see: https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)
+We provide a script `modify.sh` in this repository. This script applies changes we made to the file system of the realm and the hypervisor. It also fixes an issue that arises when trying to rebuild the stack (see the [Issue](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/issues/7)).
 
 Exit the container:
 ```
@@ -96,7 +96,7 @@ lkvm run --help
 ```
 ### 7 Inference 
 
-We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the .tflite model and a set of input images (found in the `realm` and `normal_world` directories, respectively). You can change these based on the ML application you want to run. 
+We provide an example of how to run ML inference with a realm. In our example, we use a TensorFlow Lite model that classifies images. In order to run the example, we provide the `.tflite` model and a set of input images (found in the `realm` and `normal_world` directories, respectively). You can change these based on the ML application you want to run. 
 
 In our setup, there is a shared folder between the realm and the normal world. The shared folder contains a file `signalling.txt` which is used by both the realm and the normal world app to coordinate communication. 
 
@@ -116,14 +116,14 @@ This command executes a binary file named `realm_inference`. This binary looks a
 For Further instrcutions to build `realm_inference` binary look at our [TFlite_CCA](https://github.com/comet-cc/TFlite_CCA) repository.
 
 #### b) Send inputs to the realm
-To start to write new image paths into `signalling.txt`, you need to detach form the realm by Ctrl + a + d, then execute the follwing command:
+To start to write new image paths into `signalling.txt`, you need to detach form the realm by `Ctrl + a + d`, then execute the follwing command:
 ```
 ./NW_signalling.sh
 ```
 
 ## Optional settings
-### Add content to the hypervisor file system
-The content of normal_world/root folder is overlayed into the hypeervisor file system. Therefore, you can add new content to the hypervisor file system by adding the content to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host system and the hypervisor file system which enables 
+### Add file to the hypervisor file system
+The content of `normal_world/root` folder is overlayed into the hypeervisor file system. Consequently, you can add new files to the hypervisor file system by adding the file to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host and the hypervisor running on the FVP  which enables 
 runtime transfering of data. To do this, you need to follow these steps:
 a) Go to the main `rme-stack` directory (if you are not already there) and add the shared folder address into FVP setting:
 ```
@@ -141,6 +141,8 @@ mkdir mnt
 mount -t 9p FM /root/mnt
 ```
 You should see the content of the shared folder in the `/root/mnt` path now.
+### Enable Realm Management Interface (RMI) logs
+Realm management monitor ([RMM specification](https://tf-rmm.readthedocs.io/en/latest/)) is a crucial part of Arm CCA providing confidentiality and integrity guarantees to the realm. When you boot the stack, terminal_3 (port 5003 on Telnet terminal) shows RMM logs. If you are working with RMM, you may fill that the logs are not completely compatible with the specification. What you actually need is to enable some of RMM logs which are disabled be default. To do that, open `rmm/runtime/core/handler.c` and change `false` values to `true` inside `smc_handlers[]` structure.
 ## Paper
 
 **GuaranTEE: Towards Attestable and Private ML with CCA**
