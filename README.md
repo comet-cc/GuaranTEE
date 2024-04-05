@@ -4,8 +4,8 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 
 ## Guide to run inference within a realm
 
-In the following, we provide a step-by-step guide to create a realm VM that perovides inference for normal world user space. We use Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates Armv9-A architecture. The platform only works on Linux hosts. We get all necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task.  Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
+In the following, we provide a step-by-step guide to create a realm VM that provides inference for normal world user space. We use the Armv-A Base RevC AEM FVP 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates Armv9-A architecture. The platform only works on Linux hosts. We get all the necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task. Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
@@ -152,7 +152,7 @@ _EuroMLSys, 2024_
 **Abstract** -- Machine-learning (ML) models are increasingly being deployed on edge devices to provide a variety of services. However, their deployment is accompanied by challenges in model privacy and auditability. Model providers want to ensure that (i) their proprietary models are not exposed to third parties; and (ii) be able to get attestations that their genuine models are operating on edge devices in accordance with the service agreement with the user. Existing measures to address these challenges have been hindered by issues such as high overheads and limited capability (processing/secure
 memory) on edge devices. In this work, we propose GuaranTEE, a framework to provide attestable private machine learning on the edge. GuaranTEE uses Confidential Computing Architecture (CCA), Arm’s latest architectural extension that allows for the creation and deployment of dynamic Trusted Execution Environments (TEEs) within which models can be executed. We evaluate CCA’s feasibility to deploy ML models by developing, evaluating, and openly releasing a prototype. We also suggest improvements to CCA to facilitate its use in protecting the entire ML deployment pipeline on edge devices.
 
-The paper can be found [here]().
+The paper can be found [here](https://arxiv.org/abs/2404.00190).
 
 ## Citation
 
