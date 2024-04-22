@@ -133,9 +133,7 @@ FVP by defaults uses two clusters each equiped with four cores. Based on our obs
 
 Go to the main `rme-stack` directory and run the following commands:
 ```
-NEW_LINE="\\\t-C cluster1.NUM_CORES=0 \\\\"
-SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
-PATTERN="-C cluster1.NUM_CORES"
+NEW_LINE="\\\t-C cluster1.NUM_CORES=0 \\\\" && SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh" && PATTERN="-C cluster1.NUM_CORES"
 sed -i "/${PATTERN}/c ${NEW_LINE}" "${SCRIPT}"
 ```
 ### Add file to the hypervisor file system
@@ -146,9 +144,7 @@ a) Go to the main `rme-stack` directory and add the shared folder address into F
 SHARED_FOLDER="ABSOLUTE_PATH_TO_SHARED_FOLDER"
 ```
 ```
-NEW_LINE="\\\t-C bp.virtiop9device.root_path=${SHARED_FOLDER} \\\\"
-SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
-PATTERN="-C gic_distributor.extended-spi-count"
+NEW_LINE="\\\t-C bp.virtiop9device.root_path=${SHARED_FOLDER} \\\\" && SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh" && clPATTERN="-C gic_distributor.extended-spi-count"
 sed -i "/${PATTERN}/a ${NEW_LINE}" "${SCRIPT}"
 ```
 b) Boot the stack (step 5)
