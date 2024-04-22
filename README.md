@@ -131,7 +131,7 @@ The results of inference is wrriten in `/root/shared_with_realm/output.txt`.
 ### Increase the emulator speed
 FVP by defaults uses two clusters each equiped with four cores. Based on our observation, disabling one cluster increases the speed of simulation. Therefore, we suggest the following to disable one cluster:
 
-Go to the main `rme-stack` directory (if you are not already there) and run the following commands:
+Go to the main `rme-stack` directory and run the following commands:
 ```
 NEW_LINE="\\\t-C cluster1.NUM_CORES=0 \\\\"
 SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
@@ -141,12 +141,12 @@ sed -i "/${PATTERN}/c ${NEW_LINE}" "${SCRIPT}"
 ### Add file to the hypervisor file system
 The content of `normal_world/root` folder is overlayed into the hypeervisor file system. Consequently, you can add new files to the hypervisor file system by adding the files to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host and the hypervisor running on the FVP  which enables runtime transfering of data. To do this, you need to follow these steps:
 
-a) Go to the main `rme-stack` directory (if you are not already there) and add the shared folder address into FVP setting:
+a) Go to the main `rme-stack` directory and add the shared folder address into FVP setting:
 ```
-PATH_TO_SHARED_FOLDER="Add_the_shared_folder_address_here"
+SHARED_FOLDER="ABSOLUTE_PATH_TO_SHARED_FOLDER"
 ```
 ```
-NEW_LINE="\\\t-C bp.virtiop9device.root_path=${PATH_TO_SHARED_FOLDER} \\\\"
+NEW_LINE="\\\t-C bp.virtiop9device.root_path=${SHARED_FOLDER} \\\\"
 SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
 PATTERN="-C gic_distributor.extended-spi-count"
 sed -i "/${PATTERN}/a ${NEW_LINE}" "${SCRIPT}"
