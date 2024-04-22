@@ -129,11 +129,13 @@ To start to write new image paths into `signalling.txt`, you need to detach form
 The results of inference is wrriten in `/root/shared_with_realm/output.txt`.
 ## Optional settings
 ### Increase the emulator speed
-FVP by defaults uses two clusters each equiped with four cores. Based on our observation, disabling one cluster increases the speed of simulation. Therefore, we suggest the following to disable one cluster:
+FVP by defaults uses two clusters each equiped with four cores. Based on our observation, disabling one cluster and using only one core of the other cluster gives the best simulation speed. Therefore, we suggest the following:
 
 Go to the main `rme-stack` directory and run the following commands:
 ```
 NEW_LINE="\\\t-C cluster1.NUM_CORES=0 \\\\" && SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh" && PATTERN="-C cluster1.NUM_CORES"
+sed -i "/${PATTERN}/c ${NEW_LINE}" "${SCRIPT}"
+NEW_LINE="\\\t-C cluster0.NUM_CORES=1 \\\\" && PATTERN="-C cluster0.NUM_CORES"
 sed -i "/${PATTERN}/c ${NEW_LINE}" "${SCRIPT}"
 ```
 ### Add file to the hypervisor file system
