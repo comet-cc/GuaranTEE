@@ -73,7 +73,6 @@ exit
 ### 5 Boot the stack:
 First, set the environment vairable `FVP_DIR` to the path of the downloaded FVP. Then, execute the `boot.sh` script. 
 ```
-```
 export FVP_DIR=/path_to_FVP_directory
 ```
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
