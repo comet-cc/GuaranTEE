@@ -56,6 +56,8 @@ git clone https://github.com/comet-cc/GuaranTEE.git
 a) Run the container:
 ```
 ../container.sh -v </absolute/path/to/rme-stack> run
+```
+```
 cd </absolute/path/to/rme-stack>
 ```
 b) Build the stack:
@@ -71,10 +73,12 @@ exit
 ### 5 Boot the stack:
 First, set the environment vairable `FVP_DIR` to the path of the downloaded FVP. Then, execute the `boot.sh` script. 
 ```
+```
 export FVP_DIR=/path_to_FVP_directory
+```
 ./model-scripts/aemfvp-a-rme/boot.sh -p aemfvp-a-rme shell
 ```
-You should see four xterms terminals. You can close these windows and use other terminals to receive data from telnet by:
+You should be able to see four xterms terminals. You can close these windows and use other terminals to receive data from telnet by:
 ```
 telnet localhost 5000 (up to 5003)
 ```
