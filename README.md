@@ -151,7 +151,7 @@ SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
 PATTERN="-C gic_distributor.extended-spi-count"
 sed -i "/${PATTERN}/a ${NEW_LINE}" "${SCRIPT}"
 ```
-b) Boot the stack (step 6)
+b) Boot the stack (step 5)
 
 c) Get into hypervisor user space and execute the following code:
 ```
