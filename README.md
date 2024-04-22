@@ -4,8 +4,8 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 
 ## Guide to run inference within a realm
 
-In the following, we provide a step-by-step guide to create a realm VM that provides inference for normal world user space. We use the Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that simulates Armv9-A architecture. The platform only works on Linux hosts. We get all the necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task. Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
+In the following, we provide a step-by-step guide to create a realm VM that provides inference to normal world user space. We use the Armv-A Base RevC AEM FVP 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that emulates Armv9-A architecture. The platform only works on Linux hosts. We get all the necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task. Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
@@ -122,21 +122,33 @@ This command executes a binary file named `realm_inference`. This binary looks a
 For Further instrcutions to build `realm_inference` binary look at our [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA) repository.
 
 #### b) Send inputs to the realm
-To start to write new image paths into `signalling.txt`, you need to detach form the realm by `Ctrl + a + d`, then execute the follwing command:
+To start to write new image paths into `signalling.txt`, you need to detach form the realm by pressing `Ctrl + a` and then  `d`, then execute the follwing command:
 ```
 ./NW_signalling.sh
 ```
-
+The results of inference is wrriten in `/root/shared_with_realm/output.txt`.
 ## Optional settings
+### Increase the emulator speed
+FVP by defaults uses two clusters each equiped with four cores. Based on our observation, disabling one cluster increases the speed of simulation. Therefore, we suggest the following to disable one cluster:
+
+Go to the main `rme-stack` directory (if you are not already there) and run the following commands:
+```
+NEW_LINE="\\\t-C cluster1.NUM_CORES=0 \\\\"
+SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
+PATTERN="-C cluster1.NUM_CORES"
+sed -i "/${PATTERN}/c ${NEW_LINE}" "${SCRIPT}"
+```
 ### Add file to the hypervisor file system
-The content of `normal_world/root` folder is overlayed into the hypeervisor file system. Consequently, you can add new files to the hypervisor file system by adding the file to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host and the hypervisor running on the FVP  which enables 
-runtime transfering of data. To do this, you need to follow these steps:
+The content of `normal_world/root` folder is overlayed into the hypeervisor file system. Consequently, you can add new files to the hypervisor file system by adding the files to this folder and rebuild the stack. A faster solution is to use FVP features. FVP is able to create a shared folder between the host and the hypervisor running on the FVP  which enables runtime transfering of data. To do this, you need to follow these steps:
+
 a) Go to the main `rme-stack` directory (if you are not already there) and add the shared folder address into FVP setting:
 ```
 PATH_TO_SHARED_FOLDER="Add_the_shared_folder_address_here"
-NEW_LINE="-C bp.virtiop9device.root_path=${PATH_TO_SHARED_FOLDER} \"
-SCRIPT="${GuaranTEE_DIR}/../model-scripts/aemfvp-a-rme/run_model.sh"
-PATTERN="-C gic_distributor.extended-spi-count=1024"
+```
+```
+NEW_LINE="\\\t-C bp.virtiop9device.root_path=${PATH_TO_SHARED_FOLDER} \\\\"
+SCRIPT="./model-scripts/aemfvp-a-rme/run_model.sh"
+PATTERN="-C gic_distributor.extended-spi-count"
 sed -i "/${PATTERN}/a ${NEW_LINE}" "${SCRIPT}"
 ```
 b) Boot the stack (step 6)
