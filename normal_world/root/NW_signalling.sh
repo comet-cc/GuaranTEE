@@ -7,7 +7,6 @@ stateFilePath="$path/shared_with_realm/signalling.txt" # Use a .txt file for sta
 
 # Initialize the state file with 'processed' state
 rm -f "$targetFolderPath"/*.bmp                                                       
-rm -f "$targetFolderPath"/signalling.txt 
 echo "systemState: processed" > "$stateFilePath"
 echo "fileName: " >> "$stateFilePath"
 
