@@ -94,7 +94,7 @@ b) Create a realm instance with:
 ```
 ./create_realm.sh
 ```
-Alternatively, you can create a realm instance with a customized setting like this:
+Executing `./create_NW_VM.sh` will create a virtual machine with the same configuration but inside normal world. Alternatively, you can create a realm instance with a customized setting like this:
 ```
 screen lkvm run --realm -c 1 -m 300 -k /realm/Image -d /realm/realm-fs.ext4 \
 --9p /root/shared_with_realm,sh -p earlycon  --irqchip=gicv3 --disable-sve
