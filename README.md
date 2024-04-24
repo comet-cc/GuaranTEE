@@ -27,7 +27,10 @@ Install the docker container and download the appropriate docker image by follow
 
 Create `rme-stack` inside `docker` folder, run the container and mount the path to the `rme-stack` folder using the following command. Do not forget to add absolute path to rme-stack folder (It should be something like `/home/user_name/cca-simulation/docker/rme-stack`).
 ```
-mkdir rme-stack && ./container.sh -v </absolute/path/to/rme-stack> run
+mkdir rme-stack
+```
+```
+./container.sh -v </absolute/path/to/rme-stack> run
 ```
 Run the following commands inside the container:
 ```
