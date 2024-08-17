@@ -5,7 +5,7 @@ Artifact release for the paper "GuaranTEE: Towards Attestable and Private ML wit
 ## Guide to run inference within a realm
 
 In the following, we provide a step-by-step guide to create a realm VM that provides inference to normal world user space. We use the Armv-A Base RevC AEM FVP 
-([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that emulates Armv9-A architecture. The platform only works on Linux hosts. We get all the necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference task. Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
+([Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms)), a free platform provided by Arm that emulates Armv9-A architecture. The platform only works on Linux hosts. We get all the necessary firmware and software from [arm-reference-solutions-docs](https://gitlab.arm.com/arm-reference-solutions/arm-reference-solutions-docs/-/tree/master?ref_type=heads) which are compliant with Arm CCA. Given the model and input data, we also need a binary that is able to perfom inference which already exists in the repository. Details on how to build the binary is provided in another repository [TFlite-CCA](https://github.com/comet-cc/TFlite-CCA). 
 
 ### 1 Set up the environment
 To set up the environment, follow these steps:
